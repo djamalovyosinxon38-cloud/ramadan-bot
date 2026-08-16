@@ -162,12 +162,13 @@ async def start_web_server():
     port = int(os.environ.get("PORT", 10000))
     site = web.TCPSite(runner, '0.0.0.0', port)
     await site.start()
+    print(f"Web server {port}-portda ishga tushdi")
 
 async def main():
-    # Veb-serverni fonda ishga tushiramiz
-    asyncio.create_task(start_web_server())
-    print("Bot ishga tushdi...")
-    await dp.start_polling(bot)
+    await asyncio.gather(
+        start_web_server(),
+        dp.start_polling(bot)
+    )
 
 if __name__ == "__main__":
     asyncio.run(main())
