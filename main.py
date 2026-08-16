@@ -165,7 +165,7 @@ async def start_web_server():
 
 async def main():
     # Veb-serverni fonda ishga tushiramiz
-    await start_web_server()
+    asyncio.create_task(start_web_server())
     print("Bot ishga tushdi...")
     await dp.start_polling(bot)
 
