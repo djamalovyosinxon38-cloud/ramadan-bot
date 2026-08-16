@@ -148,12 +148,6 @@ async def select_dua(message: types.Message):
 async def select_region(message: types.Message):
     await message.answer("Минтақани ўзгартириш:", reply_markup=region_inline)
 
-async def main():
-    print("Bot ishga tushdi...")
-    await dp.start_polling(bot)
-
-if __name__ == "__main__":
-    asyncio.run(main())
 async def handle(request):
     return web.Response(text="Bot is active!")
 
@@ -162,17 +156,16 @@ async def start_web_server():
     app.router.add_get('/', handle)
     runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, '0.0.0.0', 10000)
-    await site.start()
-import os
-
-async def start_web_server():
-    app = web.Application()
-    app.router.add_get('/', handle)
-    runner = web.AppRunner(app)
-    await runner.setup()
     
-    # Render o'zi beradigan PORT ni oladi, bo'lmasa 10000 ishlatadi
     port = int(os.environ.get("PORT", 10000))
     site = web.TCPSite(runner, '0.0.0.0', port)
     await site.start()
+
+async def main():
+    # Veb-serverni fonda ishga tushiramiz
+    await start_web_server()
+    print("Bot ishga tushdi...")
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
